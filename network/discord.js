@@ -49,13 +49,15 @@ client.on('message', message => {
 
 // Listen to incoming requests
 app.post('/post', (req, res) => {
-  console.log('Discord POST received');
-  console.log(req.body.xkey)
+  //console.log('Discord POST received');
 
-  var channel = client.guilds.array();
-  console.log(channel[0].channels[0].name);
+  msg_username = req.body.username;
+  msg_content = req.body.content;
+  msg_to_send = `<${msg_username}>: ${msg_content}`;
 
-  //client.guilds.array()[0].defaultChannel.sendMessage("Hi!")
+
+  client.channels.get('SERVER_ID').send(msg_to_send);
+
 
   res.writeHead(200, {'Content-Type': 'text/xml'});
   res.end("Successful post");
@@ -63,6 +65,6 @@ app.post('/post', (req, res) => {
 })
 
 
-client.login('MzgwMTMzNTE1MTUwNDkxNjUx.DVFRcA.aPHBeisowbn6vy8fMuKhD20OUCM');
+client.login('TOKEN');
 
 app.listen(6502, () => console.log('Discord listening on 6502'))

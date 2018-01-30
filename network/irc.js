@@ -1,3 +1,14 @@
+const express = require('express')
+const app = express()
+
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());   //
+app.use(bodyParser.urlencoded({ extended: true })); // Support URL-encoded bodies 
+
+app.use(express.json());       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // to support URL-encoded bodies
+
+
 var irc = require('irc')
 var request = require('request')
 
@@ -19,7 +30,6 @@ var irc_client = new irc.Client(freenode, nick, {
 
 irc_client.addListener('raw', function(msg) {
 	if (msg.command == 'PRIVMSG') {
-		console.log(msg)
 
 		var message = {
 			username: msg['nick'],
@@ -42,4 +52,23 @@ irc_client.addListener('raw', function(msg) {
 
 })
 	
+
+// Listen to incoming requests
+app.post('/post', (req, res) => {
+  //console.log('Discord POST received');
+
+  msg_username = req.body.username;
+  msg_content = req.body.content;
+  msg_to_send = `<${msg_username}>: ${msg_content}`;
+
+  irc_client.say('#testingme', msg_to_send);
+
+
+  res.writeHead(200, {'Content-Type': 'text/xml'});
+  res.end("Successful post");
+})
+
+
 console.log("Listener engaged.")
+
+app.listen(6501, () => console.log('IRC listening on 6501'))
