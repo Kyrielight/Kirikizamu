@@ -1,0 +1,19 @@
+{
+	"ports": {
+		"host": "0.0.0.0",
+		"main": 6500,
+		"irc": 6501,
+		"discord": 6502,
+		"facebook": 6503,
+	},
+
+	"mapping": {
+		"profile_1": {
+			"discord": ["id_1", "id_2", "..."],
+			"irc": ["channel_1", "channel_2", "..."],
+			"facebook": ["group_id_1", "group_id_2", "..."]
+		},
+		"profile_2": "same as above"
+	}
+
+}
